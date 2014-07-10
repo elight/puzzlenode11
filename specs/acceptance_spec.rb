@@ -61,11 +61,11 @@ describe "depth counts edge case" do
 #######~~~###########     ######
 ################################
 HERE
-    Simulator.new(input).depth_counts.map(&:to_s)
+    Simulator.new(input).depth_counts.join(' ')
   }
 
   let(:expected) {
-    "1 2 2 4 4 4 4 6 6 6 1 1 1 1 ~ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0".split
+    "1 2 2 4 4 4 4 6 6 6 1 1 1 1 ~ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
   }
 
   it "should count flowing water correctly" do
