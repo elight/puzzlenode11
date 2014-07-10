@@ -1,5 +1,42 @@
 require_relative 'spec_helper'
 
+describe "acceptance test" do
+  let(:input) {
+    <<-HERE
+      ################################
+      ~                              #
+      #         ####                 #
+      ###       ####                ##
+      ###       ####              ####
+      #######   #######         ######
+      #######   ###########     ######
+      ################################
+    HERE
+  }
+
+  let(:expected) {
+    <<-HERE
+################################
+~~~~~~~~~~~~~~~                #
+#~~~~~~~~~####~~~~~~~~~~~~     #
+###~~~~~~~####~~~~~~~~~~~~~~~~##
+###~~~~~~~####~~~~~~~~~~~~~~####
+#######~~~#######~~~~~~~~~######
+#######~~~###########~~~~~######
+################################
+HERE
+  }
+
+  it "should pass!" do
+    sim = Simulator.new(input)
+    # 99 because the initial unit counts as well
+    99.times do
+      sim = sim.flow
+    end
+    assert_equal(expected, sim.to_s)
+  end
+end
+
 describe Simulator do
   it "can stringify its state" do
     initial = <<-HERE
@@ -28,7 +65,7 @@ describe Simulator do
 ####
 HERE
 
-      assert_equal expected, Simulator.new(initial, [[1, 0], [1, 1]]).flow!.to_s
+      assert_equal expected, Simulator.new(initial, [[1, 0], [1, 1]]).flow.to_s
     end
   end
 end

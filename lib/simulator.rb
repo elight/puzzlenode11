@@ -4,10 +4,10 @@ class Simulator
     @flow_stack = flow_stack
   end
 
-  def flow!
+  def flow
     row, col = FlowRules.new(@cave, @flow_stack).next_cell
     @flow_stack.push([row, col])
-    Simulator.new(fill_coord_in_cave(row, col, @cave))
+    Simulator.new(fill_coord_in_cave(row, col, @cave), @flow_stack)
   end
 
   def to_s
