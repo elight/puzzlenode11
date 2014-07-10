@@ -9,9 +9,9 @@ class Simulator
 
   def flow!(iterations = 1)
     iterations.times do
-      row, col = FlowRules.new(@cave, @flow_stack).next_cell
-      @flow_stack.push([row, col])
-      @cave = fill_coord_in_cave(row, col, @cave)
+      coord = FlowRules.new(@cave, @flow_stack).next_cell
+      @flow_stack.push(coord)
+      @cave = fill_coord_in_cave(*coord)
     end
     self
   end
@@ -26,7 +26,7 @@ class Simulator
 
   private
 
-  def fill_coord_in_cave(row, col, cave)
-    Grid.from(cave).fill(row, col).to_s
+  def fill_coord_in_cave(row, col)
+    Grid.from(@cave).fill(row, col).to_s
   end
 end
