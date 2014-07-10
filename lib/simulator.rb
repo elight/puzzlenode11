@@ -93,9 +93,15 @@ class Grid
   end
 
   def depth_for_col(col)
+    water_found = false
     (1..height - 1).inject(0) { |m, row|
       v = @rows[row][col]
-      m += 1 if v == '~'
+      if v == '~'
+        water_found = true
+        m += 1
+      elsif water_found && v == ' '
+        m = '~'
+      end
       m
     }
   end
