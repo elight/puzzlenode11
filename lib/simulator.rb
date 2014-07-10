@@ -4,10 +4,10 @@ class Simulator
     @flow_stack = flow_stack
   end
 
-  def flow
+  def flow!
     row, col = FlowRules.new(@cave, @flow_stack).next_cell
     @flow_stack.push([row, col])
-    Simulator.new(fill_coord_in_cave(row, col, @cave), @flow_stack)
+    @cave = fill_coord_in_cave(row, col, @cave)
   end
 
   def to_s
@@ -16,6 +16,13 @@ class Simulator
 
   def fill_coord_in_cave(row, col, cave)
     Grid.from(cave).fill(row, col).to_s
+  end
+
+  def depth_counts
+    grid = Grid.from(@cave)
+    (0...grid.width).map { |col|
+      depth_for_col(col)
+    }
   end
 end
 
@@ -75,6 +82,21 @@ class Grid
 
   def to_s
     @rows.join("\n") + "\n"
+  end
+
+  def width
+    @rows.first.count
+  end
+
+  def height
+    @rows.count - 1
+  end
+
+  def depth_for_col(col)
+    (1..height - 1).inject(0) { |m, v|
+      m += 1 if v == '~'
+      m
+    }
   end
 end
 
