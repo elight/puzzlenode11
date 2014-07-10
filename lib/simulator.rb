@@ -1,49 +1,53 @@
 class Simulator
-  def initialize(cave, last_flow_coord = [1,0])
+  def initialize(cave, flow_stack = [])
     @cave = cave
-    @last_flow_coord = last_flow_coord
+    @flow_stack = flow_stack
   end
 
   def flow
-    coord = FlowRules.new(@cave, @last_flow_coord).next_cell
-    Simulator.new(fill_coord_in_cave(coord, @cave))
+    row, col = FlowRules.new(@cave, @flow_stack).next_cell
+    @flow_stack.push([row, col])
+    Simulator.new(fill_coord_in_cave(row, col, @cave))
   end
 
   def to_s
     @cave
   end
 
-  def fill_coord_in_cave(coord, cave)
+  def fill_coord_in_cave(row, col, cave)
     @cave
   end
 end
 
 class FlowRules
-  def initialize(cave, last_flow_coord = [1, 0])
+  def initialize(cave, flow_stack)
     @cave = cave
-    @last_flow_coord = last_flow_coord
+    @flow_stack = flow_stack
   end
 
   def next_cell
-    @last_flow_coord.dup.tap { |new_coord|
-      if cell_below_is_open?
-        new_coord[0] += 1
-      elsif cell_right_is_open?
-        new_coord[1] += 1
-      else
-        # flow back up 1 and check again
-      end
-    }
+    flow = @flow_stack.dup
+    last_coord = flow.pop
+    row, col = last_coord[0], last_coord[1]
+
+    if cell_below_is_open?
+      row += 1
+    elsif cell_right_is_open?
+      col += 1
+    else
+      row, col = FlowRules.new(@cave, flow).next_cell
+    end
+    [row, col]
   end
 
   def cell_below_is_open?
     grid = Grid.from(@cave)
-    grid.at(@last_flow_coord[0], @last_flow_coord[1] + 1) == ' '
+    grid.at(@flow_stack.last[0] + 1, @flow_stack.last[1]) == ' '
   end
 
   def cell_right_is_open?
     grid = Grid.from(@cave)
-    grid.at(@last_flow_coord[0] + 1, @last_flow_coord[1]) == ' '
+    grid.at(@flow_stack.last[0], @flow_stack.last[1] + 1) == ' '
   end
 end
 
@@ -56,8 +60,12 @@ class Grid
     @rows = cave.split(/\n/).map(&:strip)
   end
 
-  def at(x, y)
-    @rows[y][x]
+  def at(row, col)
+    @rows[row][col]
+  end
+  
+  def water_at?(row, col)
+    at(row, col) == '~'
   end
 end
 
