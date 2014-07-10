@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 
 describe Simulator do
   it "can stringify its state" do
-    initial = <<-HERE.gsub(/^ {6}/, '')
+    initial = <<-HERE
       ####
       ~~ #
       #  #
@@ -14,7 +14,7 @@ describe Simulator do
 
   describe "water" do
     it "flows down before it flows right" do
-      initial = <<-HERE.gsub(/^ {8}/, '')
+      initial = <<-HERE
         ####
         ~~ #
         #  #
@@ -22,13 +22,13 @@ describe Simulator do
       HERE
 
       expected = <<-HERE
-        ####
-        ~~ #
-        #~ #
-        ####
-      HERE
+####
+~~ #
+#~ #
+####
+HERE
 
-      assert_equal expected, Simulator.new(initial).flow.to_s
+      assert_equal expected, Simulator.new(initial, [[1, 0], [1, 1]]).flow!.to_s
     end
   end
 end

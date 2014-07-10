@@ -1,10 +1,10 @@
 class Simulator
-  def initialize(cave, flow_stack = [])
+  def initialize(cave, flow_stack = [[1, 0]])
     @cave = cave
     @flow_stack = flow_stack
   end
 
-  def flow
+  def flow!
     row, col = FlowRules.new(@cave, @flow_stack).next_cell
     @flow_stack.push([row, col])
     Simulator.new(fill_coord_in_cave(row, col, @cave))
@@ -15,7 +15,7 @@ class Simulator
   end
 
   def fill_coord_in_cave(row, col, cave)
-    @cave
+    Grid.from(cave).fill(row, col).to_s
   end
 end
 
@@ -66,6 +66,15 @@ class Grid
   
   def water_at?(row, col)
     at(row, col) == '~'
+  end
+
+  def fill(row, col)
+    @rows[row][col] = '~'
+    self
+  end
+
+  def to_s
+    @rows.join("\n") + "\n"
   end
 end
 
