@@ -21,7 +21,7 @@ class Simulator
   def depth_counts
     grid = Grid.from(@cave)
     (0...grid.width).map { |col|
-      depth_for_col(col)
+      grid.depth_for_col(col)
     }
   end
 end
@@ -85,15 +85,16 @@ class Grid
   end
 
   def width
-    @rows.first.count
+    @rows.first.size
   end
 
   def height
-    @rows.count - 1
+    @rows.size - 1
   end
 
   def depth_for_col(col)
-    (1..height - 1).inject(0) { |m, v|
+    (1..height - 1).inject(0) { |m, row|
+      v = @rows[row][col]
       m += 1 if v == '~'
       m
     }

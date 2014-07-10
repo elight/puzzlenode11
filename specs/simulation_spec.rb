@@ -27,13 +27,25 @@ describe "acceptance test" do
 HERE
   }
 
-  it "should pass!" do
-    sim = Simulator.new(input)
-    # 99 because the initial unit counts as well
-    99.times do
-      sim.flow!
-    end
+  let(:sim) { 
+    Simulator.new(input).tap { |s|
+      # 99 because the initial unit counts as well
+      99.times do
+        s.flow!
+      end
+    }
+  }   
+
+  let(:expected_counts) {
+    "1 2 2 4 4 4 4 6 6 6 1 1 1 1 4 3 3 4 4 4 4 5 5 5 5 5 2 2 1 1 0 0".split.map(&:to_i)
+  }
+
+  it "should match the supplied sample" do
     assert_equal(expected, sim.to_s)
+  end
+
+  it "should count the depth out correctly for each column" do
+    assert_equal(expected_counts, sim.depth_counts)
   end
 end
 
