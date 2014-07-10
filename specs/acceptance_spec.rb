@@ -28,12 +28,7 @@ HERE
   }
 
   let(:sim) { 
-    Simulator.new(input).tap { |s|
-      # 99 because the initial unit counts as well
-      99.times do
-        s.flow!
-      end
-    }
+    Simulator.new(input).flow!(99)
   }   
 
   let(:expected_counts) {
