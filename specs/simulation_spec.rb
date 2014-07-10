@@ -32,3 +32,34 @@ describe Simulator do
     end
   end
 end
+
+describe "FlowRules" do
+  describe "for a cave where the next available space is right" do
+    let(:cave) {
+      <<-HERE
+      ####
+      ~~ #
+      ####
+      HERE
+    }
+
+    it "identifies the coord of the next right cell to fill with water" do
+      assert_equal([1,2], FlowRules.new(cave, [1,1]).next_cell)
+    end
+  end
+
+  describe "for a cave where the next available space is down" do
+    let(:cave) {
+      <<-HERE
+      ###
+      ~~#
+      # #
+      ###
+      HERE
+    }
+
+    it "identifies the coord of the next cell to fill with water" do
+      assert_equal([2,1], FlowRules.new(cave, [1,1]).next_cell)
+    end
+  end
+end
