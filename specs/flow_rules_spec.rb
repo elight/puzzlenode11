@@ -11,7 +11,7 @@ describe "FlowRules" do
     }
 
     it "identifies the coord of the next right cell to fill with water" do
-      assert_equal([1,2], FlowRules.new(cave, [[1, 0], [1, 1]]).next_cell)
+      assert_equal([1,2], FlowRules.new(cave, [[1, 0], [1, 1]]).next_coord)
     end
   end
 
@@ -26,7 +26,7 @@ describe "FlowRules" do
     }
 
     it "identifies the coord of the next cell to fill with water" do
-      assert_equal([2,1], FlowRules.new(cave, [[1, 0], [1, 1]]).next_cell)
+      assert_equal([2,1], FlowRules.new(cave, [[1, 0], [1, 1]]).next_coord)
     end
   end
 
@@ -41,7 +41,7 @@ describe "FlowRules" do
     }
 
     it "selects the down coord" do
-      assert_equal([2,1], FlowRules.new(cave, [[1, 0], [1, 1]]).next_cell)
+      assert_equal([2,1], FlowRules.new(cave, [[1, 0], [1, 1]]).next_coord)
     end
   end
 
@@ -57,7 +57,7 @@ describe "FlowRules" do
     }
 
     it "fills the next available right cell above the filled level" do
-      assert_equal([2,2], FlowRules.new(cave, [[2, 1], [3, 1], [3, 2], [3, 3]]).next_cell)
+      assert_equal([2,2], FlowRules.new(cave, [[2, 1], [3, 1], [3, 2], [3, 3]]).next_coord)
     end
   end
 
@@ -73,7 +73,7 @@ describe "FlowRules" do
     }
 
     it "fills the next available right cell above the filled level" do
-      assert_equal([2,3], FlowRules.new(cave, [[3, 3], [2, 2]]).next_cell)
+      assert_equal([2,3], FlowRules.new(cave, [[3, 3], [2, 2]]).next_coord)
     end
   end
 
@@ -88,7 +88,7 @@ describe "FlowRules" do
     }
 
     it "fills in above obstacles" do
-      assert_equal([1,2], FlowRules.new(cave, [[1, 0], [1, 1], [2, 1]]).next_cell)
+      assert_equal([1,2], FlowRules.new(cave, [[1, 0], [1, 1], [2, 1]]).next_coord)
     end
   end
 
@@ -103,7 +103,7 @@ describe "FlowRules" do
     }
 
     it "fills in above obstacles" do
-      assert_equal([1,3], FlowRules.new(cave, [[1, 0], [1, 1], [2, 1], [1, 2]]).next_cell)
+      assert_equal([1,3], FlowRules.new(cave, [[1, 0], [1, 1], [2, 1], [1, 2]]).next_coord)
     end
   end
 end

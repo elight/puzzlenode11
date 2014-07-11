@@ -9,7 +9,7 @@ class Simulator
 
   def flow!(iterations = 1)
     iterations.times do
-      coord = FlowRules.new(@cave, @flow_stack).next_cell
+      coord = FlowRules.new(@cave, @flow_stack).next_coord
       @flow_stack.push(coord)
       @cave = fill_coord_in_cave(*coord)
     end

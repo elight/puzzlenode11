@@ -4,7 +4,7 @@ class FlowRules
     @flow_stack = flow_stack
   end
 
-  def next_cell
+  def next_coord
     flow = @flow_stack.dup
     last_coord = flow.pop
     row, col = last_coord[0], last_coord[1]
@@ -14,7 +14,7 @@ class FlowRules
     elsif cell_right_is_open?
       col += 1
     else
-      row, col = FlowRules.new(@cave, flow).next_cell
+      row, col = FlowRules.new(@cave, flow).next_coord
     end
     [row, col]
   end
